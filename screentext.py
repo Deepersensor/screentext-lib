@@ -1,3 +1,4 @@
+#!/usr/bin/env python3.11
 import argparse
 import os
 import subprocess
@@ -17,9 +18,11 @@ def ensure_venv():
         subprocess.run(['python3.11', '-m', 'venv', venv_dir])
 
     # Activate the virtual environment
-    activate_script = os.path.join(venv_dir, 'bin', 'activate_this.py')
-    with open(activate_script) as f:
-        exec(f.read(), {'__file__': activate_script})
+    activate_script = os.path.join(venv_dir, 'bin', 'activate')
+    if os.name == 'nt':  # Windows
+        activate_script = os.path.join(venv_dir, 'Scripts', 'activate.bat')
+    elif os.name == 'posix':  # Unix/Linux/MacOS
+        activate_script = os.path.join(venv_dir, 'bin', 'activate')
 
     # Ensure required packages are installed
     subprocess.run([os.path.join(venv_dir, 'bin', 'pip'), 'install', '-r', requirements_file])
