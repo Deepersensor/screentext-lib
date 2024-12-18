@@ -1,7 +1,28 @@
 import argparse
+import os
+import subprocess
+import sys
 from tesseract0 import extract_text
 from copy0 import copy_file_content
 from setup0 import setup_environment, watch_screenshots
+
+def ensure_venv():
+    # Get the absolute path to the current directory
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+    venv_dir = os.path.join(base_dir, '.venv')
+    requirements_file = os.path.join(base_dir, 'requirements.txt')
+
+    # Check if the virtual environment exists, if not, create it
+    if not os.path.exists(venv_dir):
+        subprocess.run(['python3.11', '-m', 'venv', venv_dir])
+
+    # Activate the virtual environment
+    activate_script = os.path.join(venv_dir, 'bin', 'activate_this.py')
+    with open(activate_script) as f:
+        exec(f.read(), {'__file__': activate_script})
+
+    # Ensure required packages are installed
+    subprocess.run([os.path.join(venv_dir, 'bin', 'pip'), 'install', '-r', requirements_file])
 
 def process_image(image_path, verbosity):
     # Extract text from the image
@@ -16,6 +37,9 @@ def process_image(image_path, verbosity):
         print("Text copied to clipboard.")
 
 def main():
+    # Ensure the virtual environment is set up
+    ensure_venv()
+
     # Run setup
     config = setup_environment()
     
