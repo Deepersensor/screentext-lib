@@ -46,6 +46,7 @@ Comment=Extract text from screenshots automatically
         if os.path.exists(desktop_entry_path):
             os.remove(desktop_entry_path)
 
+
 def setup_environment(config=None):
     if config is None:
         config = load_config()

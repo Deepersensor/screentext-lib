@@ -20,9 +20,12 @@ def extract_text(image_path, verbosity='no'):
 if __name__ == '__main__':
     # Set up argument parsing
     parser = argparse.ArgumentParser(description='Extract text from image using Tesseract')
-    parser.add_argument('image_path', type=str, help='Path to the image file')
+    parser.add_argument('image_path', nargs='?', help='Path to the image file')
     args = parser.parse_args()
 
-    # Extract text and print the output file path
-    output_path = extract_text(args.image_path)
-    print(output_path)
+    if args.image_path:
+        # Extract text and print the output file path
+        output_path = extract_text(args.image_path)
+        print(output_path)
+    else:
+        print("No image path provided.")
