@@ -9,7 +9,6 @@ env/
 .venv/
 
 # Generated text files from tesseract0.py
-*.txt
 .dist/
 
 # Logs
