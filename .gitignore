@@ -1,0 +1,36 @@
+
+# Byte-compiled Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment directories
+venv/
+env/
+.venv/
+
+# Generated text files from tesseract0.py
+*.txt
+
+# Logs
+*.log
+
+# Local configuration files
+config.json
+
+# Autostart desktop entry
+*.desktop
+
+# Temporary files
+*.tmp
+*.temp
+
+# Cache files
+.cache/
+*.cache
+
+# MacOS specific files
+.DS_Store
+
+# Linux specific hidden files
+.*swp
