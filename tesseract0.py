@@ -5,9 +5,14 @@ import string
 import os
 
 def extract_text(image_path, verbosity='no'):
+    # Ensure the .dist/ folder exists
+    dist_folder = os.path.join(os.path.dirname(__file__), '.dist')
+    if not os.path.exists(dist_folder):
+        os.makedirs(dist_folder)
+
     # Generate a random 16-character alphanumeric filename
     random_name = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
-    output_file = os.path.abspath(random_name + '.txt')
+    output_file = os.path.abspath(os.path.join(dist_folder, random_name + '.txt'))
 
     # Run Tesseract OCR
     if verbosity == 'aggressive':

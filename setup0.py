@@ -1,6 +1,7 @@
 import json
 import os
 import subprocess
+import threading
 # ...existing code...
 
 def load_config():
@@ -60,8 +61,28 @@ def setup_environment(config=None):
     # Set up run on startup
     setup_run_on_startup(run_on_startup)
     
+    # Schedule cleanup task if enabled
+    cleanup_config = config.get('cleanup', {})
+    cleanup_enabled = cleanup_config.get('enabled', False)
+    if cleanup_enabled:
+        cleanup_thread = threading.Thread(target=run_cleanup_task, args=(config,))
+        cleanup_thread.daemon = True
+        cleanup_thread.start()
+    
     # Return configurations for further use
     return config
+
+def run_cleanup_task(config):
+    cleanup_interval = config.get('cleanup', {}).get('interval', 60)
+    dist_folder = config.get('cleanup_folder_path', './dist')
+    while True:
+        cleanup_dist_folder(dist_folder)
+        time.sleep(cleanup_interval)
+
+def cleanup_dist_folder(dist_folder):
+    if os.path.exists(dist_folder):
+        shutil.rmtree(dist_folder)
+    os.makedirs(dist_folder)
 
 def watch_screenshots(screenshot_path, verbosity):
     # Watch the screenshot path for new images and process them
