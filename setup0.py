@@ -104,6 +104,7 @@ def watch_screenshots(screenshot_path, verbosity):
                 from screentext import process_image
                 process_image(image_path, verbosity)
 
+
     event_handler = ScreenshotHandler()
     observer = Observer()
     observer.schedule(event_handler, path=screenshot_path, recursive=False)
