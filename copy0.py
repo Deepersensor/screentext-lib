@@ -3,7 +3,7 @@ import pyperclip
 
 # Set up argument parsing
 parser = argparse.ArgumentParser(description='Copy file content to clipboard')
-parser.add_argument('file_path', type=str, help='Path to the file')
+parser.add_argument('file_path', nargs='?', help='Path to the file')
 parser.add_argument('--verbosity', type=str, choices=['no', 'aggressive'], default='no', help='Verbosity level')
 args = parser.parse_args()
 
@@ -17,4 +17,7 @@ def copy_file_content(file_path, verbosity='no'):
     pyperclip.copy(content)
 
 if __name__ == '__main__':
-    copy_file_content(args.file_path, args.verbosity)
+    if args.file_path:
+        copy_file_content(args.file_path, args.verbosity)
+    else:
+        print("No file path provided.")
